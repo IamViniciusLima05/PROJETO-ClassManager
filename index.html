@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassManager | Turmas e chamada</title>
+  <meta name="description" content="Gerencie turmas, faça a chamada de cada aula e acompanhe a frequência e o histórico dos alunos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="lateral">
+      <h1 class="marca"><span aria-hidden="true">✓</span><em>Class<b>Manager</b></em></h1>
+      <h2 class="rotulo">Turmas</h2>
+      <nav class="turmas" id="turmas" aria-label="Turmas"></nav>
+      <button class="btn claro largo" id="nova-turma">+ Nova turma</button>
+    </aside>
+
+    <main class="conteudo" id="conteudo">
+      <header class="cab">
+        <div>
+          <h2 id="t-nome">—</h2>
+          <p id="t-info"></p>
+        </div>
+        <div class="cab__acoes">
+          <button class="btn claro" id="editar-turma">Editar turma</button>
+          <button class="btn claro" id="exportar">⬇ CSV</button>
+          <button class="btn" id="nova-aula">+ Fazer chamada</button>
+        </div>
+      </header>
+
+      <section class="numeros" id="numeros"></section>
+
+      <div class="abas" role="tablist" aria-label="Visão">
+        <button role="tab" data-aba="alunos" aria-selected="true">Alunos</button>
+        <button role="tab" data-aba="historico" aria-selected="false">Histórico de aulas</button>
+      </div>
+
+      <section id="v-alunos" class="painel"></section>
+      <section id="v-historico" class="painel" hidden></section>
+    </main>
+  </div>
+
+  <dialog id="dlg-chamada" aria-labelledby="ch-titulo" class="grande">
+    <form method="dialog" class="form" id="form-chamada">
+      <div class="form__topo"><h2 id="ch-titulo">Chamada</h2><button class="fechar" value="cancelar" formnovalidate aria-label="Fechar">×</button></div>
+      <div class="grade">
+        <label>Data<input type="date" id="c-data" required></label>
+        <label>Conteúdo da aula<input id="c-conteudo" maxlength="80" placeholder="Ex.: Frações equivalentes"></label>
+      </div>
+      <div class="chamada__topo">
+        <span id="c-resumo"></span>
+        <div class="rapido"><button type="button" class="link" data-todos="P">Todos presentes</button><button type="button" class="link" data-todos="F">Todos faltaram</button></div>
+      </div>
+      <ul class="chamada" id="c-lista"></ul>
+      <p class="legenda"><b class="P">P</b> presente · <b class="F">F</b> falta · <b class="J">J</b> falta justificada · teclas P, F e J funcionam na linha focada</p>
+      <div class="form__rodape">
+        <button type="button" class="btn perigo" id="excluir-aula" hidden>Excluir aula</button><span></span>
+        <button class="btn claro" value="cancelar" formnovalidate>Cancelar</button><button class="btn" value="salvar">Salvar chamada</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-turma" aria-labelledby="tu-titulo">
+    <form method="dialog" class="form" id="form-turma">
+      <div class="form__topo"><h2 id="tu-titulo">Nova turma</h2><button class="fechar" value="cancelar" formnovalidate aria-label="Fechar">×</button></div>
+      <div class="grade">
+        <label>Nome da turma*<input id="tu-nome" required maxlength="40" placeholder="Ex.: 7º ano B"></label>
+        <label>Disciplina<input id="tu-disc" maxlength="40" placeholder="Ex.: Matemática"></label>
+        <label>Horário<input id="tu-horario" maxlength="40" placeholder="Ex.: Seg e Qua, 8h"></label>
+        <label>Frequência mínima (%)<input type="number" id="tu-min" min="0" max="100" value="75"></label>
+      </div>
+      <label>Alunos <small>(um por linha — cole a lista inteira)</small><textarea id="tu-alunos" rows="8" placeholder="Ana Souza&#10;Bruno Lima&#10;..."></textarea></label>
+      <p class="nota" id="tu-nota"></p>
+      <div class="form__rodape">
+        <button type="button" class="btn perigo" id="excluir-turma" hidden>Excluir turma</button><span></span>
+        <button class="btn claro" value="cancelar" formnovalidate>Cancelar</button><button class="btn" value="salvar">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-aluno" aria-labelledby="al-titulo">
+    <div class="form">
+      <div class="form__topo"><h2 id="al-titulo">Aluno</h2><button class="fechar" data-fechar aria-label="Fechar">×</button></div>
+      <div id="al-corpo"></div>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script src="js/script.js"></script>
+</body>
+</html>
